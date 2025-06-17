@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-function Form({addOrUpdateItem, itemToEdit}){
+function Form({addOrUpdateItem, itemToEdit}){//Permite tanto agregar como editar elementos en una lista o colección, dependiendo de si se recibe un itemToEdit.
+    
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(() => {
+    useEffect(() => { // Este efecto se ejecuta cuando itemToEdit cambia.  
         if (itemToEdit) {
             setInputValue(itemToEdit.value);
         } else {

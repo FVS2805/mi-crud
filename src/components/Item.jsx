@@ -1,6 +1,6 @@
 import React from "react";
 
-function Item({ item, deleteItem, editItem }) {
+function Item({ item, deleteItem, editItem }) { // Componente que representa un elemento de una lista, con botones para editar y eliminar el elemento.
     return (
         <li>
         {item.value}
