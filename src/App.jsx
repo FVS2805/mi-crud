@@ -1,42 +1,40 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
-function App() { //esta funcion es el componente principal de la aplicación, que maneja el estado y la lógica de la evaluación de alumnos.
-  // useState se utiliza para manejar el estado de los alumnos, el nombre, la asignatura, el promedio y el índice de edición.
-  // useEffect se utiliza para sincronizar el estado de los alumnos con el localStorage, permitiendo que los datos persistan entre recargas de la página.
-  const [alumnos, setAlumnos] = useState(() => {
+function App() {// Componente principal de la aplicación que maneja el estado y la lógica de las evaluaciones de alumnos.
+  const [alumnos, setAlumnos] = useState(() => {// Inicializa el estado de alumnos desde localStorage o como un array vacío si no hay datos.
     const data = localStorage.getItem('alumnos');
     return data ? JSON.parse(data) : [];
   });
 
-  const [nombre, setNombre] = useState('');
-  const [asignatura, setAsignatura] = useState('');
-  const [promedio, setPromedio] = useState('');
-  const [editIndex, setEditIndex] = useState(null);
+  const [nombre, setNombre] = useState('');// Estado para almacenar el nombre del alumno.
+  const [asignatura, setAsignatura] = useState('');// Estado para almacenar la asignatura del alumno.
+  const [promedio, setPromedio] = useState('');// Estado para almacenar el promedio del alumno.
+  const [editIndex, setEditIndex] = useState(null);// Estado para almacenar el índice del alumno que se está editando, si es que hay uno.
 
-  useEffect(() => {
+  useEffect(() => {// Efecto que se ejecuta cada vez que el estado de alumnos cambia, guardando los datos en localStorage.
     localStorage.setItem('alumnos', JSON.stringify(alumnos));
   }, [alumnos]);
 
-  const calcularEscala = (nota) => {
+  const calcularEscala = (nota) => {// Función que calcula la escala de evaluación basada en el promedio del alumno.
     if (nota < 4.0) return 'Deficiente';
     if (nota < 5.6) return 'Con Mejora';
     if (nota < 6.5) return 'Buen Trabajo';
     return 'Destacado';
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {// Función que maneja el envío del formulario para agregar o editar una evaluación.
     e.preventDefault();
     if (!nombre || !asignatura || !promedio) return;
 
-    const nuevo = {
+    const nuevo = {// Crea un nuevo objeto alumno con los datos ingresados.
       nombre,
       asignatura,
       promedio: parseFloat(promedio),
       escala: calcularEscala(parseFloat(promedio)),
     };
 
-    if (editIndex !== null) {
+    if (editIndex !== null) {// Si hay un índice de edición, actualiza el alumno existente.
       const copia = [...alumnos];
       copia[editIndex] = nuevo;
       setAlumnos(copia);
@@ -50,7 +48,7 @@ function App() { //esta funcion es el componente principal de la aplicación, qu
     setPromedio('');
   };
 
-  const handleEdit = (index) => {
+  const handleEdit = (index) => {// Función que maneja la edición de un alumno, estableciendo los valores en los campos del formulario.
     const alumno = alumnos[index];
     setNombre(alumno.nombre);
     setAsignatura(alumno.asignatura);
@@ -58,7 +56,7 @@ function App() { //esta funcion es el componente principal de la aplicación, qu
     setEditIndex(index);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (index) => {// Función que maneja la eliminación de un alumno de la lista.
     const nuevos = alumnos.filter((_, i) => i !== index);
     setAlumnos(nuevos);
   };
@@ -68,7 +66,7 @@ function App() { //esta funcion es el componente principal de la aplicación, qu
       <h1>Evaluación de Alumnos</h1>
 
       <div className="card">
-        <h2>Agregar Nueva Evaluación</h2>
+        <h2>{editIndex !== null ? 'Editar Evaluación' : 'Agregar Nueva Evaluación'}</h2>
         <form onSubmit={handleSubmit}>
           <label>Nombre del Alumno:</label>
           <input
@@ -105,28 +103,28 @@ function App() { //esta funcion es el componente principal de la aplicación, qu
 
       <div className="card">
         <h2>Evaluaciones Guardadas</h2>
-              {alumnos.length === 0 ? (
-                <p className="mensaje-vacio">
-                  No hay evaluaciones guardadas aún. ¡Agrega una!
-                </p>
-              ) : (
-                alumnos.map((alumno, i) => (
-                  <div key={i} className="alumno-card">
-                    <div className="alumno-info">
-                      <p><strong>Alumno:</strong> {alumno.nombre}</p>
-                      <p><strong>Asignatura:</strong> {alumno.asignatura}</p>
-                      <p><strong>Promedio:</strong> {alumno.promedio.toFixed(1)}</p>
-                      <span className={`badge ${alumno.escala.toLowerCase().replace(' ', '-')}`}>
-                        {alumno.escala}
-                      </span>
-                    </div>
-                    <div className="buttons">
-                      <button className="edit" onClick={() => handleEdit(i)}>Editar</button>
-                      <button className="delete" onClick={() => handleDelete(i)}>Eliminar</button>
-                    </div>
-                  </div>
-                ))
-              )}
+        {alumnos.length === 0 ? (
+          <p className="mensaje-vacio">
+            No hay evaluaciones guardadas aún. ¡Agrega una!
+          </p>
+        ) : (
+          alumnos.map((alumno, i) => (// Mapea los alumnos guardados y muestra sus datos en tarjetas.
+            <div key={i} className="alumno-card">
+              <div className="alumno-info">
+                <p><strong>Alumno:</strong> {alumno.nombre}</p>
+                <p><strong>Asignatura:</strong> {alumno.asignatura}</p>
+                <p><strong>Promedio:</strong> {alumno.promedio.toFixed(1)}</p>
+                <span className={`badge ${alumno.escala.toLowerCase().replace(' ', '-')}`}>
+                  {alumno.escala}
+                </span>
+              </div>
+              <div className="buttons">
+                <button className="edit" onClick={() => handleEdit(i)}>Editar</button>
+                <button className="delete" onClick={() => handleDelete(i)}>Eliminar</button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
