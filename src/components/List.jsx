@@ -1,19 +1,25 @@
-import React from "react";
-import Item from "./Item";
+import React from 'react';
+import Item from './Item';
 
-function List({ items, deleteItem, editItem }) {// Componente que representa una lista de elementos, donde cada elemento es un componente Item.
+function List({ alumnos, handleEdit, handleDelete }) {
   return (
-    <ul>
-      {items.map((item) => (
-        <Item
-          key={item.id}
-          item={item}
-          deleteItem={deleteItem}
-          editItem={editItem}
-        />
-      ))}
-    </ul>
+    <div className="card">
+      <h2>Evaluaciones Guardadas</h2>
+      {alumnos.length === 0 ? (
+        <p className="mensaje-vacio">No hay evaluaciones guardadas aún. ¡Agrega una!</p>
+      ) : (
+        alumnos.map((alumno, i) => (
+          <Item
+            key={i}
+            alumno={alumno}
+            onEdit={() => handleEdit(i)}
+            onDelete={() => handleDelete(i)}
+          />
+        ))
+      )}
+    </div>
   );
 }
 
 export default List;
+

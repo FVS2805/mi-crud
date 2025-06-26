@@ -1,33 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-function Form({addOrUpdateItem, itemToEdit}){//Permite tanto agregar como editar elementos en una lista o colección, dependiendo de si se recibe un itemToEdit.
-    
-    const [inputValue, setInputValue] = useState('');
+function Form({
+  nombre,
+  setNombre,
+  asignatura,
+  setAsignatura,
+  promedio,
+  setPromedio,
+  handleSubmit,
+  editIndex,
+  errores
+}) {
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Nombre del Alumno:</label>
+      <input
+        type="text"
+        placeholder="Ej: Juan Pérez"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+      />
+      {errores.nombre && <p className="error">{errores.nombre}</p>}
 
-    useEffect(() => { // Este efecto se ejecuta cuando itemToEdit cambia.  
-        if (itemToEdit) {
-            setInputValue(itemToEdit.value);
-        } else {
-            setInputValue('');
-        }
-    }, [itemToEdit]);
-    const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim()){
-        addOrUpdateItem(inputValue);
-        setInputValue('');
-    }
-};
-    return (
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                value={inputValue} 
-                onChange={(e) => setInputValue(e.target.value)} 
-            />
-            <button type="submit">{itemToEdit ? 'Actualizar' : 'Agregar'}</button>
-        </form>
-    );
+      <label>Asignatura:</label>
+      <input
+        type="text"
+        placeholder="Ej: Matemáticas"
+        value={asignatura}
+        onChange={(e) => setAsignatura(e.target.value)}
+      />
+      {errores.asignatura && <p className="error">{errores.asignatura}</p>}
+
+      <label>Promedio (1.0 - 7.0):</label>
+      <input
+        type="number"
+        step="0.1"
+        min="1"
+        max="7"
+        placeholder="Ej: 5.5"
+        value={promedio}
+        onChange={(e) => setPromedio(e.target.value)}
+      />
+      {errores.promedio && <p className="error">{errores.promedio}</p>}
+
+      <button type="submit">
+        {editIndex !== null ? 'Actualizar Evaluación' : 'Agregar Evaluación'}
+      </button>
+    </form>
+  );
 }
 
 export default Form;

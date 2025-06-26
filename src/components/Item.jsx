@@ -1,13 +1,23 @@
-import React from "react";
+import React from 'react';
 
-function Item({ item, deleteItem, editItem }) { // Componente que representa un elemento de una lista, con botones para editar y eliminar el elemento.
-    return (
-        <li>
-        {item.value}
-        <button onClick={() => editItem(item)}>Editar</button>
-        <button onClick={() => deleteItem(item.id)}>Eliminar</button>
-        </li>
-    );
+function Item({ alumno, onEdit, onDelete }) {
+  return (
+    <div className="alumno-card">
+      <div className="alumno-info">
+        <p><strong>Alumno:</strong> {alumno.nombre}</p>
+        <p><strong>Asignatura:</strong> {alumno.asignatura}</p>
+        <p><strong>Promedio:</strong> {alumno.promedio.toFixed(1)}</p>
+        <span className={`badge ${alumno.escala.toLowerCase().replace(' ', '-')}`}>
+          {alumno.escala}
+        </span>
+      </div>
+      <div className="buttons">
+        <button className="edit" onClick={onEdit}>Editar</button>
+        <button className="delete" onClick={onDelete}>Eliminar</button>
+      </div>
+    </div>
+  );
 }
 
 export default Item;
+

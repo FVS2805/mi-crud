@@ -129,3 +129,9 @@ button[type="submit"] {
   margin-top: 1rem;
   color: #555;
 }
+.error {
+  color: red;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
