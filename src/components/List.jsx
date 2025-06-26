@@ -1,7 +1,8 @@
 import React from 'react';
 import Item from './Item';
 
-function List({ alumnos, handleEdit, handleDelete }) {
+function List({ alumnos, handleEdit, handleDelete }) { //esto recibe los alumnos y las funciones de editar y eliminar
+  // Si no hay alumnos, muestra un mensaje
   return (
     <div className="card">
       <h2>Evaluaciones Guardadas</h2>

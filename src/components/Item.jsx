@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Item({ alumno, onEdit, onDelete }) {
+function Item({ alumno, onEdit, onDelete }) { //esto recibe un objeto alumno y dos funciones para editar y eliminar
   return (
     <div className="alumno-card">
       <div className="alumno-info">

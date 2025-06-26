@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Form({
+function Form({ // Props: nombre, setNombre, asignatura, setAsignatura, promedio, setPromedio, handleSubmit, editIndex, errores
   nombre,
   setNombre,
   asignatura,
@@ -12,7 +12,7 @@ function Form({
   errores
 }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}> 
       <label>Nombre del Alumno:</label>
       <input
         type="text"
